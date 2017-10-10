@@ -5,6 +5,7 @@ namespace Chloe.Query.QueryExpressions
     {
         Root = 1,
         Where,
+        AddWhere,
         Take,
         Skip,
         OrderBy,

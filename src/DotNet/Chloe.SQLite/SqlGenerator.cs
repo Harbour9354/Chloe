@@ -614,6 +614,11 @@ namespace Chloe.SQLite
 
             return exp;
         }
+        public override DbExpression Visit(DbAddWhereExpression exp)
+        {
+            this._sqlBuilder.Append(exp.Value);
+            return exp;
+        }
         public override DbExpression Visit(DbParameterExpression exp)
         {
             object paramValue = exp.Value;

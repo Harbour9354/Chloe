@@ -21,6 +21,7 @@ namespace ChloeDemo
         public static void Run()
         {
             BasicQuery();
+            return;
             JoinQuery();
             AggregateQuery();
             GroupQuery();
@@ -41,8 +42,11 @@ namespace ChloeDemo
         public static void BasicQuery()
         {
             IQuery<User> q = context.Query<User>();
-
-            q.Where(a => a.Id == 1).FirstOrDefault();
+            q = q.AddWhere(e => "ID=1");
+            q = q.Where(a => a.Id == 1);
+            var ss = q.ToList();
+            q.FirstOrDefault();
+            return;
             /*
              * SELECT TOP (1) [Users].[Id] AS [Id],[Users].[Name] AS [Name],[Users].[Gender] AS [Gender],[Users].[Age] AS [Age],[Users].[CityId] AS [CityId],[Users].[OpTime] AS [OpTime] FROM [Users] AS [Users] WHERE [Users].[Id] = 1
              */

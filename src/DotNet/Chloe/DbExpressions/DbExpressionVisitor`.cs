@@ -32,6 +32,7 @@ namespace Chloe.DbExpressions
         public abstract T Visit(DbBitOrExpression exp);
         public abstract T Visit(DbOrExpression exp);
         public abstract T Visit(DbConstantExpression exp);
+        public abstract T Visit(DbAddWhereExpression exp);
         public abstract T Visit(DbMemberExpression exp);
         public abstract T Visit(DbNotExpression exp);
         public abstract T Visit(DbConvertExpression exp);

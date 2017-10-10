@@ -16,6 +16,7 @@ namespace Chloe.DbExpressions
         GreaterThanOrEqual,
 
         Add,
+        AddWhere,
         Subtract,
         Multiply,
         Divide,

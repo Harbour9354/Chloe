@@ -16,6 +16,7 @@ namespace Chloe.Query.QueryState
         JoinQueryResult ToJoinQueryResult(JoinType joinType, LambdaExpression conditionExpression, ScopeParameterDictionary scopeParameters, KeyDictionary<string> scopeTables, string tableAlias);
 
         IQueryState Accept(WhereExpression exp);
+        IQueryState Accept(AddWhereExpression exp);
         IQueryState Accept(OrderExpression exp);
         IQueryState Accept(SelectExpression exp);
         IQueryState Accept(SkipExpression exp);

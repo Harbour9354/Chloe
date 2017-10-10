@@ -16,6 +16,10 @@ namespace Chloe.Query.QueryExpressions
         {
             throw new NotImplementedException();
         }
+        public virtual T Visit(AddWhereExpression exp)
+        {
+            throw new NotImplementedException();
+        }
         public virtual T Visit(SelectExpression exp)
         {
             throw new NotImplementedException();
