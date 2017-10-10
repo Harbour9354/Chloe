@@ -33,6 +33,12 @@ namespace Chloe.Query.Visitors
             IQueryState state = prevState.Accept(exp);
             return state;
         }
+        public override IQueryState Visit(AddWhereExpression exp)
+        {
+            IQueryState prevState = exp.PrevExpression.Accept(this);
+            IQueryState state = prevState.Accept(exp);
+            return state;
+        }
         public override IQueryState Visit(OrderExpression exp)
         {
             IQueryState prevState = exp.PrevExpression.Accept(this);

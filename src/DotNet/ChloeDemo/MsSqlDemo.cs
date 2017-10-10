@@ -20,22 +20,28 @@ namespace ChloeDemo
 
         public static void Run()
         {
-            BasicQuery();
-            return;
-            JoinQuery();
-            AggregateQuery();
-            GroupQuery();
-            ComplexQuery();  /* v2.18复杂查询 */
-            Insert();
-            BulkInsert();
-            Update();
-            Delete();
-            Method();
-            ExecuteCommandText();
-            DoWithTransaction();
-            DoWithTransactionEx();
-
+            //BasicQuery();
+            //return;
+            //JoinQuery();
+            //AggregateQuery();
+            //GroupQuery();
+            //ComplexQuery();  /* v2.18复杂查询 */
+            //Insert();
+            //BulkInsert();
+            //Update();
+            //Delete();
+            //Method();
+            //ExecuteCommandText();
+            //DoWithTransaction();
+            //DoWithTransactionEx();
+            user();
             ConsoleHelper.WriteLineAndReadKey();
+        }
+
+        public static void user()
+        {
+            IQuery<User> q = context.Query<User>().AddWhere(e => " Name>'1'");
+            q.ToList();
         }
 
 
