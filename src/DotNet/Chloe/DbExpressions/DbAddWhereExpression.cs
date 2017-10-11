@@ -7,13 +7,13 @@ namespace Chloe.DbExpressions
 {
     public class DbAddWhereExpression : DbExpression
     {
-        string _value;
-        public DbAddWhereExpression(string value)
+        string _strWhere;
+        public DbAddWhereExpression(string strWhere)
             : base(DbExpressionType.AddWhere)
         {
-            this._value = value;
+            this._strWhere = strWhere;
         }
-        public object Value { get { return this._value; } }
+        public string StrWhere { get { return this._strWhere; } }
 
         public override T Accept<T>(DbExpressionVisitor<T> visitor)
         {

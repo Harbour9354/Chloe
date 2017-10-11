@@ -40,7 +40,9 @@ namespace ChloeDemo
 
         public static void user()
         {
-            IQuery<User> q = context.Query<User>().AddWhere(e => " Name>'1'");
+            IQuery<User> q = context.Query<User>().AddWhere(" Name>'1'");
+            q = q.AddWhere("ID=1");
+            q = q.Where(a => a.Id == 1);
             q.ToList();
         }
 
@@ -48,7 +50,7 @@ namespace ChloeDemo
         public static void BasicQuery()
         {
             IQuery<User> q = context.Query<User>();
-            q = q.AddWhere(e => "ID=1");
+            q = q.AddWhere("ID=1");
             q = q.Where(a => a.Id == 1);
             var ss = q.ToList();
             q.FirstOrDefault();

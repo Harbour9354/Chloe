@@ -8,16 +8,14 @@ namespace Chloe.Query.QueryExpressions
 {
     class AddWhereExpression : QueryExpression
     {
-        LambdaExpression _predicate;
-        public AddWhereExpression(QueryExpression prevExpression, Type elementType, LambdaExpression predicate)
-            : base(QueryExpressionType.AddWhere, elementType, prevExpression)
+        string _strWhere;
+        public AddWhereExpression(Type elementType, QueryExpression prevExpression, string strWhere)
+           : base(QueryExpressionType.AddWhere, elementType, prevExpression)
         {
-            this._predicate = predicate;
+            this._strWhere = strWhere;
         }
-        public LambdaExpression Predicate
-        {
-            get { return this._predicate; }
-        }
+        public string StrWhere { get { return this._strWhere; } }
+
         public override T Accept<T>(QueryExpressionVisitor<T> visitor)
         {
             return visitor.Visit(this);

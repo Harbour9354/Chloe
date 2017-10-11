@@ -32,14 +32,16 @@ namespace Chloe.Query.QueryState
         }
         public virtual IQueryState Accept(AddWhereExpression exp)
         {
-            var con = (ConstantExpression)exp.Predicate.Body;
-            if (con.Value.GetType().Equals(typeof(String)))
-            {
-                //FilterPredicateExpressionVisitor.ParseFilterPredicate(exp.Predicate, this.MoeList);
-                DbExpression addWhereCondition = new DbAddWhereExpression(con.Value.ToString());
-                this._resultElement.AppendCondition(addWhereCondition);
-            }
-
+            //var con = (ConstantExpression)exp.Predicate.Body;
+            //if (con.Value.GetType().Equals(typeof(String)))
+            //{
+            //    //FilterPredicateExpressionVisitor.ParseFilterPredicate(exp.Predicate, this.MoeList);
+            //    DbExpression addWhereCondition = new DbAddWhereExpression(con.Value.ToString());
+            //    this._resultElement.AppendCondition(addWhereCondition);
+            //}
+            string strWhere = exp.StrWhere;
+            DbExpression addWhereCondition = new DbAddWhereExpression(strWhere);
+            this._resultElement.AppendCondition(addWhereCondition);
             return this;
         }
         public virtual IQueryState Accept(OrderExpression exp)

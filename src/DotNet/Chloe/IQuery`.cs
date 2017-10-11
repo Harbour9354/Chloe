@@ -11,7 +11,8 @@ namespace Chloe
         IQuery<TResult> Select<TResult>(Expression<Func<T, TResult>> selector);
 
         IQuery<T> Where(Expression<Func<T, bool>> predicate);
-        IQuery<T> AddWhere(Expression<Func<T, string>> predicate);
+        IQuery<T> AddWhere(string strWhere);
+
         IOrderedQuery<T> OrderBy<K>(Expression<Func<T, K>> keySelector);
         IOrderedQuery<T> OrderByDesc<K>(Expression<Func<T, K>> keySelector);
         IQuery<T> Skip(int count);

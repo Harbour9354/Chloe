@@ -656,7 +656,7 @@ namespace Chloe.SqlServer
         }
         public override DbExpression Visit(DbAddWhereExpression exp)
         {
-            this._sqlBuilder.Append(exp.Value);
+            this._sqlBuilder.Append(exp.StrWhere);
             return exp;
         }
         public override DbExpression Visit(DbParameterExpression exp)

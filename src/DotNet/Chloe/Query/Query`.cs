@@ -54,10 +54,10 @@ namespace Chloe.Query
             WhereExpression e = new WhereExpression(typeof(T), this._expression, predicate);
             return new Query<T>(this._dbContext, e, this._trackEntity);
         }
-        public IQuery<T> AddWhere(Expression<Func<T, string>> predicate)
+        public IQuery<T> AddWhere(string strWhere)
         {
-            Utils.CheckNull(predicate);
-            AddWhereExpression e = new AddWhereExpression(_expression, typeof(T), predicate);
+            Utils.CheckNull(strWhere);
+            AddWhereExpression e = new AddWhereExpression(typeof(T), _expression, strWhere);
             return new Query<T>(this._dbContext, e, this._trackEntity);
         }
         public IOrderedQuery<T> OrderBy<K>(Expression<Func<T, K>> keySelector)
