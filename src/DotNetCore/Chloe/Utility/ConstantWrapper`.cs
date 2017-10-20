@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 
-namespace Chloe.Extension
+namespace Chloe
 {
-    internal class ConstantWrapper<T>
+    public class ConstantWrapper<T>
     {
         public ConstantWrapper(T value)
         {

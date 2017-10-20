@@ -34,7 +34,7 @@ namespace Chloe.SqlServer
         }
 
         static Dictionary<string, SysType> SysTypes;
-        static readonly Dictionary<Type, Type> ToStringableNumericTypes;
+
         static MsSqlContext()
         {
             List<SysType> sysTypes = new List<SysType>();
@@ -74,17 +74,6 @@ namespace Chloe.SqlServer
             sysTypes.Add(new SysType<string>("sysname"));
 
             SysTypes = sysTypes.ToDictionary(a => a.TypeName, a => a);
-
-            List<Type> toStringableNumericTypes = new List<Type>();
-            toStringableNumericTypes.Add(typeof(byte));
-            toStringableNumericTypes.Add(typeof(sbyte));
-            toStringableNumericTypes.Add(typeof(short));
-            toStringableNumericTypes.Add(typeof(ushort));
-            toStringableNumericTypes.Add(typeof(int));
-            toStringableNumericTypes.Add(typeof(uint));
-            toStringableNumericTypes.Add(typeof(long));
-            toStringableNumericTypes.Add(typeof(ulong));
-            ToStringableNumericTypes = toStringableNumericTypes.ToDictionary(a => a, a => a);
         }
 
         /// <summary>
@@ -155,7 +144,7 @@ namespace Chloe.SqlServer
                             valType = val.GetType();
                         }
 
-                        if (ToStringableNumericTypes.ContainsKey(valType))
+                        if (Utils.IsToStringableNumericType(valType))
                         {
                             sqlBuilder.Append(val.ToString());
                             continue;
@@ -304,9 +293,9 @@ namespace Chloe.SqlServer
             for (int i = 0; i < columns.Count; i++)
             {
                 var column = columns[i];
-                MappingMemberDescriptor mappingMemberDescriptor = mappingMemberDescriptors.Where(a => string.Equals(a.Column.Name, column.Name)).FirstOrDefault();
+                MappingMemberDescriptor mappingMemberDescriptor = mappingMemberDescriptors.Find(a => string.Equals(a.Column.Name, column.Name));
                 if (mappingMemberDescriptor == null)
-                    mappingMemberDescriptor = mappingMemberDescriptors.Where(a => string.Equals(a.Column.Name, column.Name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                    mappingMemberDescriptor = mappingMemberDescriptors.Find(a => string.Equals(a.Column.Name, column.Name, StringComparison.OrdinalIgnoreCase));
 
                 ColumnMapping columnMapping = new ColumnMapping(column);
                 Type dataType;
