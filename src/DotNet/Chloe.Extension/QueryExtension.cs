@@ -50,15 +50,10 @@ namespace Chloe
             return source.WhereIfNotNull(val == string.Empty ? null : val, predicate);
         }
 
-        [Obsolete("Instead of using 'ToList<TModel>(this IQuery source)'")]
-        public static List<TModel> ToList<TEntity, TModel>(this IQuery<TEntity> source)
-        {
-            return source.MapTo<TEntity, TModel>().ToList();
-        }
         /// <summary>
-        /// dbContext.Query&lt;User&gt;().ToList&lt;UserModel&gt;();
+        /// dbContext.Query&lt;User&gt;().ToList&lt;UserModel&gt;()
+        /// <para>该方法调用者的 IQuery.ElementType 必须是实体类型</para> 
         /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TModel"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -66,18 +61,9 @@ namespace Chloe
         {
             return source.MapTo<TModel>().ToList();
         }
-        [Obsolete("Instead of using 'MapTo<TModel>(this IQuery source)'")]
-        public static IQuery<TModel> MapTo<TEntity, TModel>(this IQuery<TEntity> source)
-        {
-            /*
-             * Usage:
-             * dbContext.Query<User>().MapTo<User, UserModel>().ToList();
-             */
-
-            return source.MapTo<TModel>();
-        }
         /// <summary>
         /// dbContext.Query&lt;User&gt;().MapTo&lt;UserModel&gt;()
+        /// <para>该方法调用者的 IQuery.ElementType 必须是实体类型</para> 
         /// </summary>
         /// <typeparam name="TModel"></typeparam>
         /// <param name="source"></param>
@@ -135,21 +121,21 @@ namespace Chloe
         }
 
         /// <summary>
-        /// dbContext.Query&lt;User&gt;().Ignore&lt;User&gt;(a => new object[] { a.Name, a.Age })
+        /// dbContext.Query&lt;User&gt;().Ignore&lt;User&gt;(a => new { a.Name, a.Age }) or dbContext.Query&lt;User&gt;().Ignore&lt;User&gt;(a => new object[] { a.Name, a.Age })
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="source"></param>
         /// <param name="fields"></param>
         /// <returns></returns>
-        public static IQuery<TEntity> Ignore<TEntity>(this IQuery<TEntity> source, Expression<Func<TEntity, object[]>> fields)
+        public static IQuery<TEntity> Ignore<TEntity>(this IQuery<TEntity> source, Expression<Func<TEntity, object>> fields)
         {
             Utils.CheckNull(fields);
 
-            List<string> fieldList = IgnoreFieldsResolver.Pick(fields);
+            List<string> fieldList = FieldsResolver.Resolve(fields);
             return source.Ignore(fieldList.ToArray());
         }
         /// <summary>
-        /// dbContext.Query&lt;User&gt;().Ignore&lt;User&gt;("Age", "Name")
+        /// dbContext.Query&lt;User&gt;().Ignore&lt;User&gt;("Name,Age", "NickName")
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="source"></param>
@@ -159,7 +145,13 @@ namespace Chloe
         {
             Utils.CheckNull(source);
 
-            if (fields == null || fields.Length == 0)
+            if (fields == null)
+                return source;
+
+            /* 支持 source.Ignore<User>("Name,Age", "NickName"); */
+            fields = fields.SelectMany(a => a.Split(',')).Select(a => a.Trim()).ToArray();
+
+            if (fields.Length == 0)
                 return source;
 
             List<MemberBinding> bindings = new List<MemberBinding>();
@@ -181,7 +173,7 @@ namespace Chloe
             }
 
             if (bindings.Count == 0)
-                throw new Exception("There are not fields to map after ignore.");
+                throw new Exception("There are no fields to map after ignore.");
 
             NewExpression newExp = Expression.New(entityType);
             Expression selectorBody = Expression.MemberInit(newExp, bindings);
@@ -192,7 +184,7 @@ namespace Chloe
         }
 
         /// <summary>
-        /// dbContext.Query&lt;User&gt;().OrderBy("Id asc,Age desc");
+        /// dbContext.Query&lt;User&gt;().OrderBy("Id asc,Age desc")
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="q"></param>

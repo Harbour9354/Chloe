@@ -30,6 +30,7 @@ namespace Chloe.SqlServer
         public static readonly Type TypeOfTimeSpan = typeof(TimeSpan);
 
         public static readonly Type TypeOfMath = typeof(Math);
+        public static readonly Type TypeOfSql = typeof(Sql);
 
         #region DbExpression constants
 
@@ -71,18 +72,23 @@ namespace Chloe.SqlServer
         public static readonly MethodInfo MethodInfo_String_ToLower = typeof(string).GetMethod("ToLower", Type.EmptyTypes);
         public static readonly MethodInfo MethodInfo_String_Substring_Int32 = typeof(string).GetMethod("Substring", new Type[] { typeof(Int32) });
         public static readonly MethodInfo MethodInfo_String_Substring_Int32_Int32 = typeof(string).GetMethod("Substring", new Type[] { typeof(Int32), typeof(Int32) });
+        public static readonly MethodInfo MethodInfo_String_Replace = typeof(string).GetMethod("Replace", new Type[] { typeof(string), typeof(string) });
 
         public static readonly MethodInfo MethodInfo_Guid_NewGuid = typeof(Guid).GetMethod("NewGuid");
 
         /* DbFunctions */
-        public static readonly MethodInfo MethodInfo_DbFunctions_DiffYears = typeof(DbFunctions).GetMethod("DiffYears");
-        public static readonly MethodInfo MethodInfo_DbFunctions_DiffMonths = typeof(DbFunctions).GetMethod("DiffMonths");
-        public static readonly MethodInfo MethodInfo_DbFunctions_DiffDays = typeof(DbFunctions).GetMethod("DiffDays");
-        public static readonly MethodInfo MethodInfo_DbFunctions_DiffHours = typeof(DbFunctions).GetMethod("DiffHours");
-        public static readonly MethodInfo MethodInfo_DbFunctions_DiffMinutes = typeof(DbFunctions).GetMethod("DiffMinutes");
-        public static readonly MethodInfo MethodInfo_DbFunctions_DiffSeconds = typeof(DbFunctions).GetMethod("DiffSeconds");
-        public static readonly MethodInfo MethodInfo_DbFunctions_DiffMilliseconds = typeof(DbFunctions).GetMethod("DiffMilliseconds");
-        public static readonly MethodInfo MethodInfo_DbFunctions_DiffMicroseconds = typeof(DbFunctions).GetMethod("DiffMicroseconds");
+        //public static readonly MethodInfo MethodInfo_DbFunctions_DiffYears = typeof(DbFunctions).GetMethod("DiffYears");
+        //public static readonly MethodInfo MethodInfo_DbFunctions_DiffMonths = typeof(DbFunctions).GetMethod("DiffMonths");
+        //public static readonly MethodInfo MethodInfo_DbFunctions_DiffDays = typeof(DbFunctions).GetMethod("DiffDays");
+        //public static readonly MethodInfo MethodInfo_DbFunctions_DiffHours = typeof(DbFunctions).GetMethod("DiffHours");
+        //public static readonly MethodInfo MethodInfo_DbFunctions_DiffMinutes = typeof(DbFunctions).GetMethod("DiffMinutes");
+        //public static readonly MethodInfo MethodInfo_DbFunctions_DiffSeconds = typeof(DbFunctions).GetMethod("DiffSeconds");
+        //public static readonly MethodInfo MethodInfo_DbFunctions_DiffMilliseconds = typeof(DbFunctions).GetMethod("DiffMilliseconds");
+        //public static readonly MethodInfo MethodInfo_DbFunctions_DiffMicroseconds = typeof(DbFunctions).GetMethod("DiffMicroseconds");
+
+        /* Sql */
+        public static readonly MethodInfo MethodInfo_Sql_Equals = typeof(Sql).GetMethods().Where(a => a.Name == "Equals" && a.IsStatic && a.IsGenericMethod).First();
+        public static readonly MethodInfo MethodInfo_Sql_NotEquals = typeof(Sql).GetMethod("NotEquals");
         #endregion
 
     }
